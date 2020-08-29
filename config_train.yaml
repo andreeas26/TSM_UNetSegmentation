@@ -1,0 +1,20 @@
+dataset:
+    train: 0.8
+    val: 0.9
+    test: 1.0
+
+n_channels: 3
+opt_name: sgd
+opt_param:
+    lr: 0.0001
+    momentum: 0.99
+    nesterov: true
+
+epochs: 200
+batch_size: 4
+target_size:
+    - 256
+    - 256
+
+data_aug: true
+patience: 20
