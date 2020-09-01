@@ -8,6 +8,7 @@ This project uses the [CBIS-DDSM](https://wiki.cancerimagingarchive.net/display/
 ## Project structure
 The project contains the following files:
 - data_analysis
+  - data_analysis.ipynb: gives a short overview of the dataset
   - create_jpgs.ipynb: converts DICOM files into JPG
   - create_cropped_imgs_masks.ipynb: cropps the original images and masks
   - imgs_masks_dims.ipynb: analysis of the data from the image dimension point of view
