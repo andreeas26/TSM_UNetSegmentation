@@ -63,6 +63,7 @@ def augmentator(images, masks):
     elastic_det = elastic_aug.to_deterministic()
 
     # when input mask is float32, the no channels must be 3 as it would be 3 classes.
+    # TODO: remove nb_classes parameter, it's deprecated
     segmaps = [SegmentationMapOnImage(m, nb_classes=3, shape=images[i].shape) for i, m in enumerate(masks)]
 
     aug_images, aug_masks = spatial_det.augment_images(images), spatial_det.augment_segmentation_maps(segmaps=segmaps)
@@ -71,12 +72,13 @@ def augmentator(images, masks):
     aug_images = other_aug.augment_images(aug_images)
 
     # convert seg_maps into numpy arrays with shape (H,W,1)
+    # TODO: use get_arr() function for converting to a numpy array the SegmentationMapOnImage instances
     aug_masks = [np.expand_dims(m.arr[:, :, 0], axis=2) for m in aug_masks]
 
     return aug_images, aug_masks
 
-
-def image_mask_generator_imgaug(img_df, mask_df, subset, batch_size, target_size, data_aug=False):#, pretrained_network=None):
+# TODO: add shuffle parameter in order to use generator for test data as well
+def image_mask_generator_imgaug(img_df, mask_df, subset, batch_size, target_size, data_aug=False, seed=None):
     """
     Generator for images and masks that can perform data augmentation using the imgaug library
     
@@ -93,17 +95,21 @@ def image_mask_generator_imgaug(img_df, mask_df, subset, batch_size, target_size
           - y_batch:
     """
 
-    img_df  = img_df.loc[img_df['subset'] == subset, :]
-    mask_df = mask_df.loc[mask_df['subset'] == subset, :]
+    img_df  = img_df.loc[img_df['subset'] == subset, :].reset_index(drop=True)
+    mask_df = mask_df.loc[mask_df['subset'] == subset, :].reset_index(drop=True)
 
     assert len(img_df) == len(mask_df), "The number of images should be equal with the number of masks."
 
     list_IDs = np.arange(0, len(img_df))
-    random.shuffle(list_IDs)
+
+    if seed:
+      np.random.seed(seed)
+      
+    np.random.shuffle(list_IDs)
 
     while True:
 
-        random.shuffle(list_IDs)
+        np.random.shuffle(list_IDs)
 
         for start in range(0, len(list_IDs), batch_size):
             x_batch = []
@@ -140,6 +146,6 @@ def image_mask_generator_imgaug(img_df, mask_df, subset, batch_size, target_size
             # cv2.imwrite("aug_mask_{}_{}.jpg".format(hash, data_aug), y_batch[0] * 255)
 
             x_batch = np.array(x_batch, np.float32) / 255.
-            y_batch = np.array(y_batch, np.float32)  # scaling already done in line 166
+            y_batch = np.array(y_batch, np.float32)  # scaling already done in line 125
 
             yield x_batch, y_batch
