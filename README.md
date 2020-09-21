@@ -2,6 +2,7 @@
 
 ## Introduction
 
+
 ## Environment
 Initially this code was developed using the below versions for the main libraries, but it should work fine with the most recent ones too:
 - Keras: deep learning framework, version 2.2.4;
@@ -31,6 +32,7 @@ The project contains the following files:
 - train.ipynb: notebook for the training process 
 - evaluate.ipynb: notebook for the evaluation process
 - history_stats.ipynb: notebook for checking the status of the training process
+- overlap_masks.ipynb: notebook for ploting the overlapping between the ground truth and the predicted mask
 
 ## References
 1.  Rebecca Sawyer Lee, Francisco Gimenez, Assaf Hoogi , Daniel Rubin  (2016). Curated Breast Imaging Subset of DDSM [Dataset]. The Cancer Imaging Archive. DOI:  https://doi.org/10.7937/K9/TCIA.2016.7O02S9CY
