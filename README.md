@@ -1,7 +1,7 @@
-# UNet Segmentation - TSM article, september 2020
+# UNet Segmentation
 
 ## Introduction
-
+This is the code presented in the [article for Today Software Magazine](https://www.todaysoftmag.ro/article/3229/segmentarea-automata-in-imagistica-medicala) from September 2020.
 
 ## Environment
 Initially this code was developed using the below versions for the main libraries, but it should work fine with the most recent ones too:
